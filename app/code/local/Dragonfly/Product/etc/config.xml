@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+	    <Dragonfly_Product>
+	        <version>1.0.0</version>
+	    </Dragonfly_Product>
+    </modules>
+    
+    <global>
+		<models>
+            <dragonfly_product>
+            	<class>Dragonfly_Product_Model</class>
+            </dragonfly_product>
+        </models>
+        	
+        <events>
+        	<catalog_product_save_before>
+        		<observers>
+        			<dragonfly_product>
+		        		<class>dragonfly_product/observer</class>
+		        		<method>addBeforeProduct</method>
+		        		<type>singleton</type>
+	        		</dragonfly_product>
+	        	</observers>
+        	</catalog_product_save_before>
+        	
+        	<catalog_product_save_after>
+        		<observers>
+        			<dragonfly_product>
+		        		<class>dragonfly_product/observer</class>
+		        		<method>addDefaultProductOptions</method>
+		        		<type>singleton</type>
+	        		</dragonfly_product>
+	        	</observers>
+        	</catalog_product_save_after>
+        </events>
+        
+    </global>
+</config>

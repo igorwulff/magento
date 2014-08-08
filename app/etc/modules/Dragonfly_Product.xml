@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Dragonfly_Product>
+      <active>true</active>
+      <codePool>local</codePool>
+    </Dragonfly_Product>
+  </modules>
+</config>
