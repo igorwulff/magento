@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Dragonfly_Ordercomments>
+      <version>0.1.0</version>
+    </Dragonfly_Ordercomments>
+  </modules>
+  
+  <global>
+	<models>
+        <dragonfly_ordercomments>
+        	<class>Dragonfly_Ordercomments_Model</class>
+        </dragonfly_ordercomments>
+    </models>
+  	
+  	
+    <events>
+      <checkout_type_onepage_save_order>
+        <observers>
+          <dragonfly_ordercomments>
+            <class>dragonfly_ordercomments/observer</class>
+            <method>saveOrder</method>
+            <type>singleton</type>
+          </dragonfly_ordercomments>
+        </observers>
+      </checkout_type_onepage_save_order>
+    </events>
+  </global>
+</config>
