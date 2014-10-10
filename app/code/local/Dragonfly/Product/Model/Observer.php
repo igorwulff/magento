@@ -67,4 +67,47 @@ class Dragonfly_Product_Model_Observer
 		
 	    return true;
     }
+    
+	//Configurable product
+    public function recalculateFinalPrice(Varien_Event_Observer $observer)
+    {
+    	if(!is_null($observer)){
+    		$quoteItem = $observer->getEvent()->getQuoteItem();
+			$product = $observer->getEvent()->getProduct();
+				
+	
+			if($product->getTypeId() == "configurable"){
+				$data = array();
+				
+				$quote = $quoteItem->getQuote();
+				foreach($product->getCustomOptions() as $option){
+					$data[] = unserialize($option->getValue());
+				}
+				
+				if(isset($data[0]['super_attribute'][134], $data[0]['super_attribute'][92])){
+					$size = (int)$data[0]['super_attribute'][134];
+					$color = (int)$data[0]['super_attribute'][92];
+	
+				    $collection = Mage::getModel('catalog/product_type_configurable')
+						->getUsedProductCollection($product)
+	                    ->addAttributeToSelect('color')
+						->addAttributeToSelect('size')
+	                	->addFilterByRequiredOptions();
+						
+					$currentProduct = null;
+				    foreach($collection as $value){
+				    	if($value->getColor() == $color && $value->getSize() == $size){
+				    		$currentProduct = $value->load();
+							break;
+				    	}					
+				    }
+					
+					if(!is_null($currentProduct)){
+						$product->setPrice($currentProduct->getPrice());
+						$product->setFinalPrice($currentProduct->getFinalPrice());
+					}
+				}
+			}
+		}
+    }
 }
